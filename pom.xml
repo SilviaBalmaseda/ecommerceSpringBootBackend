@@ -52,6 +52,10 @@
 		    <artifactId>lombok</artifactId>
 		    <scope>provided</scope>
 		</dependency>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     </dependencies>
 
     <build>
