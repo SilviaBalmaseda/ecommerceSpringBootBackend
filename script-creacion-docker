@@ -1,0 +1,25 @@
+docker run -d `
+
+--name usuarios_oracle `
+
+-p 1521:1521 `
+
+-e ORACLE_PASSWORD=Abcd1234$ `
+
+-e ORACLE_PDB=FREEPDB1 `
+
+-v usuarios_oracle_data:/opt/oracle/oradata `
+
+gvenzl/oracle-free:full-faststart
+
+  
+
+# EXPLICACIÓN DE LAS VARIABLES:
+
+# -p 1521:1521 : Puerto estándar de Oracle.
+
+# -e ORACLE_PASSWORD : Fija la contraseña para los superusuarios (SYS y SYSTEM).
+
+# -e ORACLE_PDB : Crea una Pluggable Database llamada XEPDB1 (o el nombre que quieras).
+
+# -v ...:/opt/oracle/oradata : La ruta donde Oracle guarda los datos persistentes en esta imagen.
