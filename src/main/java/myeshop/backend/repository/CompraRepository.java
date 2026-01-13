@@ -15,8 +15,6 @@ import myeshop.backend.model.Compra;
  * @author Rafael Robles
  */
 @Repository
-
-@Repository
 public interface CompraRepository extends JpaRepository<Compra, Integer> {
 
     // Ver todas las compras de un cliente específico (usando su NIF)
