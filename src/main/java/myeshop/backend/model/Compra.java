@@ -16,6 +16,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Entidad que representa la cabecera de una compra.
@@ -24,6 +29,11 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "compra")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "lineas")
 public class Compra {
 
     @Id
@@ -50,31 +60,6 @@ public class Compra {
     @OneToMany(mappedBy = "compra", fetch = FetchType.LAZY)
     private Set<ArticuloCompra> lineas = new HashSet<>();
 
-    public Compra() {
-    }
-
-    // Getters y Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
-
-    public LocalDateTime getFechaCompra() { return fechaCompra; }
-    public void setFechaCompra(LocalDateTime fechaCompra) { this.fechaCompra = fechaCompra; }
-
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
-
-    public String getDireccionEntrega() { return direccionEntrega; }
-    public void setDireccionEntrega(String direccionEntrega) { this.direccionEntrega = direccionEntrega; }
-
-    public BigDecimal getPrecioTotal() { return precioTotal; }
-    public void setPrecioTotal(BigDecimal precioTotal) { this.precioTotal = precioTotal; }
-
-    public Cliente getCliente() { return cliente; }
-    public void setCliente(Cliente cliente) { this.cliente = cliente; }
-
-    public Set<ArticuloCompra> getLineas() { return lineas; }
-    public void setLineas(Set<ArticuloCompra> lineas) { this.lineas = lineas; }
-
     // Métodos Helper para sincronizar la relación bidireccional con las líneas
     public void addLinea(ArticuloCompra linea) {
         lineas.add(linea);
@@ -87,20 +72,10 @@ public class Compra {
     }
 
     @Override
-    public String toString() {
-        return "Compra [ID=" + id + ", Total=" + precioTotal + ", Estado=" + estado + "]";
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Compra other = (Compra) o;
         return Objects.equals(id, other.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? Objects.hash(id) : System.identityHashCode(this);
     }
 }

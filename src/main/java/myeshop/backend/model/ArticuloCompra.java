@@ -13,6 +13,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Entidad que representa una línea dentro de una compra (relación N:N entre
@@ -21,6 +27,10 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "articulo_compra")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class ArticuloCompra {
 
     @EmbeddedId
@@ -29,11 +39,13 @@ public class ArticuloCompra {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("articuloId")
     @JoinColumn(name = "articulo_id", nullable = false)
+    @ToString.Exclude
     private Articulo articulo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("compraId")
     @JoinColumn(name = "compra_id", nullable = false)
+    @ToString.Exclude
     private Compra compra;
 
     @Column(name = "unidades")
@@ -41,9 +53,6 @@ public class ArticuloCompra {
 
     @Column(name = "precio_compra", precision = 10, scale = 2)
     private BigDecimal precioCompra;
-
-    public ArticuloCompra() {
-    }
 
     public ArticuloCompra(Articulo articulo, Compra compra, Integer unidades, BigDecimal precioCompra) {
         this.articulo = articulo;
@@ -58,11 +67,7 @@ public class ArticuloCompra {
         }
     }
 
-    // Getters y Setters
-    public ArticuloCompraId getId() { return id; }
-
-    public Articulo getArticulo() { return articulo; }
-
+    // Custom helper setters that manage the composite key
     public void setArticulo(Articulo articulo) {
         this.articulo = articulo;
         if (articulo != null) {
@@ -71,8 +76,6 @@ public class ArticuloCompra {
             this.id.setArticuloId(null);
         }
     }
-
-    public Compra getCompra() { return compra; }
 
     public void setCompra(Compra compra) {
         this.compra = compra;
@@ -83,17 +86,6 @@ public class ArticuloCompra {
         }
     }
 
-    public Integer getUnidades() { return unidades; }
-    public void setUnidades(Integer unidades) { this.unidades = unidades; }
-
-    public BigDecimal getPrecioCompra() { return precioCompra; }
-    public void setPrecioCompra(BigDecimal precioCompra) { this.precioCompra = precioCompra; }
-
-    @Override
-    public String toString() {
-        return "ArticuloCompra{" + "articulo=" + (articulo != null ? articulo.getNombre() : "null") 
-                + ", unidades=" + unidades + ", precio=" + precioCompra + '}';
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -110,6 +102,9 @@ public class ArticuloCompra {
 
     // --- Clase para Clave Compuesta ---
     @Embeddable
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class ArticuloCompraId implements Serializable {
         private static final long serialVersionUID = 1L;
 
@@ -118,31 +113,5 @@ public class ArticuloCompra {
 
         @Column(name = "compra_id")
         private Integer compraId;
-
-        public ArticuloCompraId() {}
-
-        public ArticuloCompraId(Integer articuloId, Integer compraId) {
-            this.articuloId = articuloId;
-            this.compraId = compraId;
-        }
-
-        public Integer getArticuloId() { return articuloId; }
-        public void setArticuloId(Integer articuloId) { this.articuloId = articuloId; }
-
-        public Integer getCompraId() { return compraId; }
-        public void setCompraId(Integer compraId) { this.compraId = compraId; }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            ArticuloCompraId that = (ArticuloCompraId) o;
-            return Objects.equals(articuloId, that.articuloId) && Objects.equals(compraId, that.compraId);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(articuloId, compraId);
-        }
     }
 }

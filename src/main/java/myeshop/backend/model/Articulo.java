@@ -15,6 +15,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Representa un artículo en la tienda online.
@@ -23,6 +28,11 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "articulo")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "compras")
 public class Articulo {
 
     @Id
@@ -47,28 +57,6 @@ public class Articulo {
     @OneToMany(mappedBy = "articulo", fetch = FetchType.LAZY)
     private Set<ArticuloCompra> compras = new HashSet<>();
 
-    public Articulo() {
-    }
-
-    // Getters y Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
-
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-
-    public BigDecimal getPrecioActual() { return precioActual; }
-    public void setPrecioActual(BigDecimal precioActual) { this.precioActual = precioActual; }
-
-    public Integer getStock() { return stock; }
-    public void setStock(Integer stock) { this.stock = stock; }
-
-    public Set<ArticuloCompra> getCompras() { return compras; }
-    public void setCompras(Set<ArticuloCompra> compras) { this.compras = compras; }
-
     // Métodos Helper para relaciones bidireccionales
     public void addCompra(ArticuloCompra compra) {
         compras.add(compra);
@@ -78,11 +66,6 @@ public class Articulo {
     public void removeCompra(ArticuloCompra compra) {
         compras.remove(compra);
         compra.setArticulo(null);
-    }
-
-    @Override
-    public String toString() {
-        return nombre + ", Precio=" + precioActual + ", Stock=" + stock;
     }
 
     @Override

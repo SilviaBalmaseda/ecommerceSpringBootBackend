@@ -58,5 +58,25 @@
 	<build>
 		<finalName>myeshop-backend</finalName>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault> <!-- Se activa si no dices nada -->
+			</activation>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>pro</id>
+			<properties>
+				<spring.profiles.active>pro</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
+	
 
 </project>
