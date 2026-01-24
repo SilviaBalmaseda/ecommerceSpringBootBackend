@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.4</version>
+		<version>4.0.0</version>
 		<relativePath />
 	</parent>
 
@@ -23,6 +23,8 @@
 
 	<properties>
 		<java.version>21</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.release>21</maven.compiler.release>
 	</properties>
 
 	<dependencies>
@@ -38,6 +40,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- Test (Recomendado por el profesor) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Oracle JDBC (SIN versión, Spring Boot la gestiona) -->
@@ -57,6 +66,40 @@
 
 	<build>
 		<finalName>myeshop-backend</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
+		<plugins>
+			<!-- Plugin ESENCIAL de Spring Boot (Del ejemplo del profesor) -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault> <!-- Se activa si no dices nada -->
+			</activation>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>pro</id>
+			<properties>
+				<spring.profiles.active>pro</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
+	
 
 </project>
