@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.4</version>
+		<version>4.0.0</version>
 		<relativePath />
 	</parent>
 
@@ -67,21 +67,9 @@
 	<build>
 		<finalName>myeshop-backend</finalName>
 		<resources>
-			<!-- 1. Filtrar solo los .properties para inyectar variables (Evita errores en Eclipse/VSCode) -->
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
-				<includes>
-					<include>*.properties</include>
-				</includes>
-			</resource>
-			<!-- 2. Cargar el resto de archivos sin filtrar -->
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-				<excludes>
-					<exclude>*.properties</exclude>
-				</excludes>
 			</resource>
 		</resources>
 		

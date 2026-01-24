@@ -22,6 +22,12 @@ import myeshop.backend.repository.ArticuloRepository;
 import myeshop.backend.repository.ClienteRepository;
 import myeshop.backend.repository.CompraRepository;
 
+/**
+ * Servicio de lógica de negocio para gestionar el proceso de compras.
+ * Maneja transacciones complejas que involucran validación de stock, cálculo de precios y persistencia.
+ * 
+ * @author Rafael Robles
+ */
 @Service
 public class CompraService {
 
@@ -37,6 +43,20 @@ public class CompraService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    /**
+     * Procesa una nueva solicitud de compra completando las siguientes acciones:
+     * <ul>
+     * <li>Valida la existencia del cliente y artículos.</li>
+     * <li>Comprueba disponibilidad de stock.</li>
+     * <li>Decrementa el stock tras la confirmación.</li>
+     * <li>Calcula precios totales y subtotales.</li>
+     * <li>Persiste la compra y sus líneas de detalle.</li>
+     * </ul>
+     * 
+     * @param solicitud DTO con los datos de entrada de la compra.
+     * @return DTO con el resumen de la compra efectuada.
+     * @throws RuntimeException si no existe cliente/artículo o no hay stock suficiente.
+     */
     @Transactional
     public CompraRespuestaDTO procesarCompra(CompraSolicitudDTO solicitud) {
         
@@ -107,6 +127,12 @@ public class CompraService {
         return respuesta;
     }
 
+    /**
+     * Recupera el historial completo de compras realizadas por un cliente.
+     * 
+     * @param nif Identificador fiscal del cliente.
+     * @return Lista de compras realizadas por dicho cliente.
+     */
     @Transactional(readOnly = true)
     public List<CompraRespuestaDTO> obtenerComprasPorCliente(String nif) {
         return compraRepository.findByCliente_NifCif(nif).stream()
