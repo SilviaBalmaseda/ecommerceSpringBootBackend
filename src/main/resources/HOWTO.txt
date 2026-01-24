@@ -1,0 +1,71 @@
+=====================================================
+DOCUMENTACIÓN DE CONFIGURACIÓN SPRING BOOT (PROFILES)
+=====================================================
+
+1. ESTRATEGIA DE SEPARACIÓN DE ARCHIVOS
+---------------------------------------
+Spring Boot utiliza un sistema de "herencia" de configuración.
+La aplicación carga siempre el archivo base (`application.properties`) y, 
+si hay un perfil activo (ej: dev), carga después `application-dev.properties`, 
+sobrescribiendo o añadiendo las configuraciones específicas.
+
+Estructura:
+- application.properties      -> Configuración COMÚN (Drivers, Logs, JPA base).
+- application-dev.properties  -> Entorno de DESARROLLO (Localhost).
+- application-pre.properties  -> Entorno de PRE-PRODUCCIÓN (Servidor de pruebas).
+- application-pro.properties  -> Entorno de PRODUCCIÓN (Servidor real).
+
+
+2. DETALLE DEL ARCHIVO COMÚN (application.properties)
+-----------------------------------------------------
+Este archivo contiene lo que es idéntico para todos los entornos.
+
+>> spring.profiles.active=@spring.profiles.active@
+   - ESTA ES LA CLAVE. Es el puente entre Maven y Spring.
+   - Maven, al compilar (gracias al 'filtering'), sustituye los '@...@' por el 
+     perfil que hayas elegido en el comando (mvn clean install -Ppro).
+   - Si Maven inyecta 'dev', Spring buscará automáticamente 'application-dev.properties'.
+
+>> spring.jpa.database-platform=org.hibernate.dialect.OracleDialect
+   - Forza a Hibernate a hablar el "idioma" SQL específico de Oracle.
+
+>> spring.jpa.show-sql=true / format_sql=true
+   - Muestra las consultas SQL en la consola. Útil para depurar, pero cuidado
+     en producción (puede generar logs gigantes).
+
+>> spring.jpa.open-in-view=false
+   - BUENA PRÁCTICA. Cierra la sesión de base de datos en cuanto termina la 
+     lógica del servicio/transacción. Evita que la vista (el frontend o controlador) 
+     haga consultas "lazy" sorpresa, lo que mejora el rendimiento y previene errores.
+
+>> spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+   - Define la clase Java que se usa para conectar. Es la misma en todos los entornos.
+
+
+3. DETALLE DE LOS ENTORNOS ESPECÍFICOS
+--------------------------------------
+Estos archivos solo contienen los datos sensibles o variables de cada máquina.
+
+A) application-dev.properties (Tu PC)
+   - url: jdbc:oracle:thin:@//localhost:1521/FREEPDB1
+     (Conecta a tu base de datos Oracle local/Docker).
+   - username: USUARIOS_APP (Tu usuario de desarrollo).
+   - ddl-auto=validate: Revisa que tus Entities de Java coincidan con las tablas.
+
+B) application-pre.properties (Servidor Intermedio)
+   - url: jdbc:oracle:thin:@//servidor-preproduccion...
+   - username: PRE_USER
+   - ddl-auto=validate
+
+C) application-pro.properties (Servidor Final)
+   - url: jdbc:oracle:thin:@//servidor-produccion...
+   - username: PRO_USER
+   - password: (Contraseñas de producción, más seguras).
+
+4. NOTA SOBRE 'ddl-auto=validate'
+---------------------------------
+En tus archivos usas 'validate'.
+- validate: Solo mira si las tablas existen y tienen las columnas correctas. Si no, falla al arrancar. NO toca la BD.
+- update: Intentaría crear columnas si faltan. Es peligroso en Producción.
+- create-drop: Borra todo al reiniciar. Muy peligroso.
+Has hecho bien manteniendo 'validate' o 'none' para entornos profesionales.
