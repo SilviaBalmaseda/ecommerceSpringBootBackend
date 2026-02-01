@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -22,7 +23,6 @@ import lombok.ToString;
 @NoArgsConstructor
 public class InformacionFiscal {
 
-    // PK compartida con Cliente
     @Id
     @Column(name = "nif_cif", length = 20)
     private String nifCif;
@@ -34,7 +34,8 @@ public class InformacionFiscal {
     private String direccionFiscal;
 
     @OneToOne
-    @JoinColumn(name = "nif_cif", nullable = false, unique = true)
+    @MapsId
+    @JoinColumn(name = "nif_cif")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Cliente cliente;

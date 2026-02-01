@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import myeshop.backend.model.Articulo;
 
+/**
+ * Repositorio para la entidad Artículo.
+ * Gestiona las operaciones CRUD y consultas personalizadas para artículos.
+ * @author Rafael Robles
+ */
 @Repository
 public interface ArticuloRepository extends JpaRepository<Articulo, Integer> {
 

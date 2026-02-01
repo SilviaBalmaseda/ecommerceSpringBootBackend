@@ -51,7 +51,7 @@ public class Compra {
     private String direccionEntrega;
 
     @Column(name = "precio_total", precision = 10, scale = 2, nullable = false)
-    private BigDecimal precioTotal;
+    private BigDecimal precioTotal = BigDecimal.ZERO;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_nif_cif", nullable = true) 

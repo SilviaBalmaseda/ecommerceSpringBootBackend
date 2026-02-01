@@ -16,7 +16,8 @@ gvenzl/oracle-free:full-faststart
 
 # EXPLICACIÓN DE LAS VARIABLES:
 
-# -p 1521:1521 : Puerto estándar de Oracle.
+# -p 1521:1521 : Puerto estándar de Oracle(Silvia).
+# -p 1522:1521 : Puerto estándar de Oracle(Rafa).
 
 # -e ORACLE_PASSWORD : Fija la contraseña para los superusuarios (SYS y SYSTEM).
 

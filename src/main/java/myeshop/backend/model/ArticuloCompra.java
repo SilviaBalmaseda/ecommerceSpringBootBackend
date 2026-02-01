@@ -48,7 +48,7 @@ public class ArticuloCompra {
     @ToString.Exclude
     private Compra compra;
 
-    @Column(name = "unidades")
+    @Column(name = "unidades", nullable = false)
     private Integer unidades;
 
     @Column(name = "precio_compra", precision = 10, scale = 2)

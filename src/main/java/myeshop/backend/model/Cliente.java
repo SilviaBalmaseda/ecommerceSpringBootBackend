@@ -1,6 +1,7 @@
 package myeshop.backend.model;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.CascadeType;
@@ -54,9 +55,9 @@ public class Cliente {
     @EqualsAndHashCode.Exclude
     private InformacionFiscal informacionFiscal;
 
-    // 1:N con Compra (SE HARÁ DESPUÉS TODO)
+    // 1:N con Compra
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Compra> compras;
+    private Set<Compra> compras = new HashSet<>();
 }

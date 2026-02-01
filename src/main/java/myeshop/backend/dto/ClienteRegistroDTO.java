@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * DTO para transferir datos de registro de un cliente al backend.
+ * Evita exponer la entidad JPA directamente.
  * 
  * @author Silvia Balmaseda
  */

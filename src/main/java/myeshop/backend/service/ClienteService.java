@@ -13,6 +13,7 @@ import myeshop.backend.model.InformacionFiscal;
 import myeshop.backend.repository.ClienteRepository;
 
 /**
+ * Servicio de lógica de negocio para gestionar clientes.
  * 
  * @author Silvia Balmaseda
  */
@@ -22,24 +23,22 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 
-	// =========================
 	// REGISTRAR CLIENTE
-	// =========================
 	@Transactional
 	public ClienteRespuestaDTO registrarCliente(ClienteRegistroDTO dto) {
 
-		// 1️⃣ REGLAS DE NEGOCIO
+		// 1️ REGLAS DE NEGOCIO
 		if (clienteRepository.existsById(dto.getNifCif())) {
 			throw new RuntimeException("Ya existe un cliente con NIF/CIF: " + dto.getNifCif());
 		}
 
-		// 2️⃣ DTO → ENTIDAD Cliente
+		// 2️ DTO → ENTIDAD Cliente
 		Cliente cliente = new Cliente();
 		cliente.setNifCif(dto.getNifCif());
 		cliente.setNombreCompleto(dto.getNombreCompleto());
 		cliente.setEmail(dto.getEmail());
 
-		// 3️⃣ DTO → ENTIDAD InformacionFiscal
+		// 3️ DTO → ENTIDAD InformacionFiscal
 		InformacionFiscal infoFiscal = new InformacionFiscal();
 		infoFiscal.setTelefono(dto.getTelefono());
 		infoFiscal.setDireccionFiscal(dto.getDireccionFiscal());
@@ -48,24 +47,20 @@ public class ClienteService {
 		infoFiscal.setCliente(cliente);
 		cliente.setInformacionFiscal(infoFiscal);
 
-		// 4️⃣ PERSISTENCIA
+		// 4️ PERSISTENCIA
 		Cliente guardado = clienteRepository.save(cliente);
 
-		// 5️⃣ ENTIDAD → DTO RESPUESTA
+		// 5️ ENTIDAD → DTO RESPUESTA
 		return convertirADTO(guardado);
 	}
 
-	// =========================
 	// LISTAR TODOS
-	// =========================
 	@Transactional(readOnly = true)
 	public List<ClienteRespuestaDTO> listarTodos() {
 		return clienteRepository.findAll().stream().map(this::convertirADTO).collect(Collectors.toList());
 	}
 
-	// =========================
 	// OBTENER POR NIF/CIF
-	// =========================
 	@Transactional(readOnly = true)
 	public ClienteRespuestaDTO obtenerPorNif(String nifCif) {
 
@@ -75,16 +70,12 @@ public class ClienteService {
 		return convertirADTO(cliente);
 	}
 
-	// =========================
 	// MÉTODO AUXILIAR
-	// =========================
 	private ClienteRespuestaDTO convertirADTO(Cliente cliente) {
 		return new ClienteRespuestaDTO(cliente.getNifCif(), cliente.getNombreCompleto(), cliente.getEmail());
 	}
 
-	// =========================
 	// OPCIONAL ACTUALIZAR
-	// =========================
 	@Transactional
 	public ClienteRespuestaDTO actualizarCliente(String nifCif, ClienteUpdateDTO dto) {
 
@@ -104,8 +95,9 @@ public class ClienteService {
 		InformacionFiscal info = cliente.getInformacionFiscal();
 
 		if (info == null && (dto.getTelefono() != null || dto.getDireccionFiscal() != null)) {
-			info = new InformacionFiscal();
-			cliente.setInformacionFiscal(info); // sincroniza relación
+		    info = new InformacionFiscal();
+		    info.setCliente(cliente);        
+		    cliente.setInformacionFiscal(info);
 		}
 
 		if (info != null) {

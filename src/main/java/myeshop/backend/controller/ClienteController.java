@@ -8,7 +8,7 @@ import myeshop.backend.dto.ClienteRespuestaDTO;
 import myeshop.backend.service.ClienteService;
 
 /**
- * 
+ * Controlador para gestionar las solicitudes relacionadas con clientes.	
  * 
  * @author Silvia Balmaseda
  */

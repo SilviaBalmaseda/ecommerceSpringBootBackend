@@ -99,6 +99,11 @@ public class CompraService {
 
             // Crear Entidad Relación N:N
             ArticuloCompra linea = new ArticuloCompra(articulo, compra, item.getUnidades(), precioUnitario);
+
+            // Para no tener colecciones vacías en memoria
+            compra.addLinea(linea);
+            articulo.addCompra(linea);
+
             articuloCompraRepository.save(linea);
 
             // Añadir a respuesta DTO
