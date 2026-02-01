@@ -35,14 +35,13 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
-		<!-- Spring Data JPA (incluye Hibernate internamente, sin que tú lo
-		gestiones) -->
+		<!-- Spring Data JPA (incluye Hibernate internamente, sin gestionarlo a mano) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- Test (Recomendado por el profesor) -->
+		<!-- Test  -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -74,7 +73,7 @@
 		</resources>
 		
 		<plugins>
-			<!-- Plugin ESENCIAL de Spring Boot (Del ejemplo del profesor) -->
+			<!-- Plugin ESENCIAL de Spring Boot  -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
