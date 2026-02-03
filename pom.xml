@@ -48,7 +48,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Oracle JDBC (SIN versión, Spring Boot la gestiona) -->
+		<!-- Oracle JDBC con la versión gestionada por SpringBoot -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc11</artifactId>
@@ -73,7 +73,7 @@
 		</resources>
 		
 		<plugins>
-			<!-- Plugin ESENCIAL de Spring Boot  -->
+			<!-- Plugin Spring Boot  -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -85,7 +85,7 @@
 		<profile>
 			<id>dev</id>
 			<activation>
-				<activeByDefault>true</activeByDefault> <!-- Se activa si no dices nada -->
+				<activeByDefault>true</activeByDefault> <!-- Se activa por defecto -->
 			</activation>
 			<properties>
 				<spring.profiles.active>dev</spring.profiles.active>
